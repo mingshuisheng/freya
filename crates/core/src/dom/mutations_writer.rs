@@ -42,6 +42,8 @@ impl<'a> MutationsWriter<'a> {
                     stack.extend(children.iter().copied().rev());
                 }
 
+                println!("{:?} {:?} {:?}", node.id(), *node.node_type(), node.height());
+
                 // Remove from layers
                 let layer_state = node.get::<LayerState>().unwrap();
                 self.layers
