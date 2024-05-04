@@ -17,6 +17,7 @@ pub struct MutationsWriter<'a> {
 
 impl<'a> MutationsWriter<'a> {
     pub fn remove(&mut self, id: ElementId) {
+        println!("Removing...");
         let node_id = self.native_writer.state.element_to_node_id(id);
         let mut dom_adapter = DioxusDOMAdapter::new_with_cache(self.native_writer.rdom);
 
@@ -90,10 +91,7 @@ impl<'a> WriteMutations for MutationsWriter<'a> {
     }
 
     fn replace_node_with(&mut self, id: dioxus_core::ElementId, m: usize) {
-        if m > 0 {
-            self.remove(id);
-        }
-
+        self.remove(id);
         self.native_writer.replace_node_with(id, m);
     }
 
