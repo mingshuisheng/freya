@@ -57,6 +57,14 @@ impl Scaled for Node {
     fn scale(&mut self, scale_factor: f32) {
         self.width.scale(scale_factor);
         self.height.scale(scale_factor);
+        self.minimum_width.scale(scale_factor);
+        self.minimum_height.scale(scale_factor);
+        self.maximum_width.scale(scale_factor);
+        self.maximum_height.scale(scale_factor);
+        self.margin.scale(scale_factor);
+        self.padding.scale(scale_factor);
+        self.offset_x *= scale_factor;
+        self.offset_y *= scale_factor;
     }
 }
 
