@@ -362,6 +362,7 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
         event: winit::event::WindowEvent,
     ) {
         let scale_factor = self.scale_factor();
+        println!("> {scale_factor}");
         let CreatedState {
             gr_context,
             surface,
@@ -378,6 +379,16 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
         app.accessibility
             .process_accessibility_event(&event, window);
         match event {
+            WindowEvent::ScaleFactorChanged {
+                scale_factor,
+                inner_size_writer,
+            } => {
+                app.resize(window.inner_size());
+                surface
+                    .canvas()
+                    .scale((scale_factor as f32, scale_factor as f32));
+                println!("new -> {scale_factor}");
+            }
             WindowEvent::CloseRequested => event_loop.exit(),
             WindowEvent::Ime(Ime::Commit(text)) => {
                 self.send_event(PlatformEvent::Keyboard {
@@ -523,8 +534,6 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
                 );
 
                 window.request_redraw();
-
-                app.resize(size);
 
                 app.resize(size);
             }

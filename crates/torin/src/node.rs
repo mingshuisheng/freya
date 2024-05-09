@@ -6,6 +6,7 @@ use crate::{
     gaps::Gaps,
     geometry::Length,
     prelude::{Content, Position},
+    scaled::Scaled,
     size::Size,
 };
 
@@ -50,6 +51,13 @@ pub struct Node {
     pub has_layout_references: bool,
 
     pub contains_text: bool,
+}
+
+impl Scaled for Node {
+    fn scale(&mut self, scale_factor: f32) {
+        self.width.scale(scale_factor);
+        self.height.scale(scale_factor);
+    }
 }
 
 impl Node {

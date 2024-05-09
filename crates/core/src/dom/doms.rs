@@ -147,6 +147,7 @@ impl FreyaDOM {
             layout: &mut self.torin.lock().unwrap(),
             layers: &self.layers,
             paragraphs: &self.paragraphs,
+            scale_factor,
         });
 
         let mut ctx = SendAnyMap::new();
@@ -168,6 +169,7 @@ impl FreyaDOM {
             layout: &mut self.torin.lock().unwrap(),
             layers: &self.layers,
             paragraphs: &self.paragraphs,
+            scale_factor,
         });
 
         // Update the Nodes states
