@@ -379,10 +379,9 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
             .process_accessibility_event(&event, window);
         match event {
             WindowEvent::ScaleFactorChanged { scale_factor, .. } => {
-                app.resize(window.inner_size());
-                surface
-                    .canvas()
-                    .scale((scale_factor as f32, scale_factor as f32));
+                let scale_factor = scale_factor as f32;
+                app.resize(window.inner_size(), scale_factor);
+                surface.canvas().scale((scale_factor, scale_factor));
             }
             WindowEvent::CloseRequested => event_loop.exit(),
             WindowEvent::Ime(Ime::Commit(text)) => {
@@ -530,7 +529,7 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
 
                 window.request_redraw();
 
-                app.resize(size);
+                app.resize(size, window.scale_factor() as f32);
             }
             WindowEvent::DroppedFile(file_path) => {
                 self.dropped_file_path = Some(file_path);

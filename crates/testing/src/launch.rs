@@ -12,9 +12,9 @@ use tokio::sync::mpsc::unbounded_channel;
 use tokio::sync::{broadcast, watch};
 use winit::window::CursorIcon;
 
-use crate::config::TestingConfig;
 use crate::test_handler::TestingHandler;
 use crate::test_utils::TestUtils;
+use crate::{config::TestingConfig, SCALE_FACTOR};
 
 /// Run a Component in a headless testing environment.
 ///
@@ -49,7 +49,10 @@ pub fn launch_test_with_config(root: AppComponent, config: TestingConfig) -> Tes
         accessibility_manager: AccessibilityManager::new(ACCESSIBILITY_ROOT_ID).wrap(),
         ticker_sender: broadcast::channel(5).0,
         navigation_state: NavigatorState::new(NavigationMode::NotKeyboard),
-        platform_information: Arc::new(Mutex::new(PlatformInformation::new(config.size))),
+        platform_information: Arc::new(Mutex::new(PlatformInformation::new(
+            config.size,
+            SCALE_FACTOR as f32,
+        ))),
         cursor_icon: CursorIcon::default(),
         focus_sender,
         focus_receiver,

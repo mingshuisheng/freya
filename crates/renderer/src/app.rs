@@ -81,6 +81,7 @@ impl Application {
 
         let platform_information = Arc::new(Mutex::new(PlatformInformation::from_winit(
             window.inner_size(),
+            window.scale_factor() as f32,
         )));
 
         Self {
@@ -253,10 +254,11 @@ impl Application {
     }
 
     /// Resize the Window
-    pub fn resize(&mut self, size: PhysicalSize<u32>) {
+    pub fn resize(&mut self, size: PhysicalSize<u32>, scale_factor: f32) {
         self.measure_layout_on_next_render = true;
         self.sdom.get().layout().reset();
-        *self.platform_information.lock().unwrap() = PlatformInformation::from_winit(size);
+        *self.platform_information.lock().unwrap() =
+            PlatformInformation::from_winit(size, scale_factor);
     }
 
     /// Measure the a text group given it's ID.

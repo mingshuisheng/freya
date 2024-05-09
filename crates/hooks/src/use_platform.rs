@@ -86,16 +86,21 @@ impl Ticker {
 #[derive(Clone)]
 pub struct PlatformInformation {
     pub window_size: Size2D,
+    pub scale_factor: f32,
 }
 
 impl PlatformInformation {
-    pub fn from_winit(physical_size: PhysicalSize<u32>) -> Self {
+    pub fn from_winit(physical_size: PhysicalSize<u32>, scale_factor: f32) -> Self {
         Self {
             window_size: Size2D::new(physical_size.width as f32, physical_size.height as f32),
+            scale_factor,
         }
     }
 
-    pub fn new(window_size: Size2D) -> Self {
-        Self { window_size }
+    pub fn new(window_size: Size2D, scale_factor: f32) -> Self {
+        Self {
+            window_size,
+            scale_factor,
+        }
     }
 }
