@@ -256,7 +256,7 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
             let num_samples = gl_config.num_samples() as usize;
             let stencil_size = gl_config.stencil_size() as usize;
 
-            let mut surface = create_surface(
+            let surface = create_surface(
                 &mut window,
                 fb_info,
                 &mut gr_context,
@@ -265,7 +265,6 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
             );
 
             let scale_factor = window.scale_factor() as f32;
-            surface.canvas().scale((scale_factor, scale_factor));
 
             let mut app = Application::new(
                 sdom,
@@ -381,7 +380,6 @@ impl<'a, State: Clone> ApplicationHandler<EventMessage> for DesktopRenderer<'a, 
             WindowEvent::ScaleFactorChanged { scale_factor, .. } => {
                 let scale_factor = scale_factor as f32;
                 app.resize(window.inner_size(), scale_factor);
-                surface.canvas().scale((scale_factor, scale_factor));
             }
             WindowEvent::CloseRequested => event_loop.exit(),
             WindowEvent::Ime(Ime::Commit(text)) => {
