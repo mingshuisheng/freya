@@ -65,6 +65,7 @@ impl Scaled for Node {
         self.padding.scale(scale_factor);
         self.offset_x *= scale_factor;
         self.offset_y *= scale_factor;
+        self.position.scale(scale_factor);
     }
 }
 
