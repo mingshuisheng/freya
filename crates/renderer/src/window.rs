@@ -22,6 +22,9 @@ use winit::{
     window::{Window, WindowBuilder},
 };
 
+#[cfg(target_os = "windows")]
+use winit::platform::windows::WindowExtWindows;
+
 use crate::config::WindowConfig;
 
 /// Manager for a Window
@@ -99,6 +102,8 @@ impl<T: Clone> WindowEnv<T> {
 
         let mut window = window.expect("Could not create window with OpenGL context");
         window.set_ime_allowed(true);
+        #[cfg(target_os = "windows")]
+        window.set_skip_taskbar(window_config.skip_taskbar);
         let raw_window_handle = window.raw_window_handle();
 
         let context_attributes = ContextAttributesBuilder::new()
