@@ -4,7 +4,7 @@ use freya_core::plugins::{FreyaPlugin, PluginsManager};
 use freya_engine::prelude::Color;
 use freya_node_state::Parse;
 use image::io::Reader;
-use winit::window::{Icon, Window, WindowBuilder};
+use winit::window::{Icon, Window, WindowBuilder, WindowLevel};
 
 pub type WindowBuilderHook = Box<dyn Fn(WindowBuilder) -> WindowBuilder>;
 pub type EmbeddedFonts<'a> = Vec<(&'a str, &'a [u8])>;
@@ -31,6 +31,8 @@ pub struct WindowConfig<T: Clone> {
     pub transparent: bool,
     /// Make the Window skip taskbar or not.
     pub skip_taskbar: bool,
+    /// Sets the window level.
+    pub window_level: WindowLevel,
     /// A custom value to consume from your app.
     pub state: Option<T>,
     /// Background color of the Window.
@@ -105,6 +107,7 @@ pub struct LaunchConfigBuilder<'a, T> {
     pub(crate) title: &'static str,
     pub(crate) transparent: bool,
     pub(crate) skip_taskbar: bool,
+    pub(crate) window_level: WindowLevel,
     pub(crate) state: Option<T>,
     pub(crate) background: Color,
     pub(crate) fonts: Vec<(&'a str, &'a [u8])>,
@@ -129,6 +132,7 @@ impl<T> Default for LaunchConfigBuilder<'_, T> {
             title: "Freya app",
             transparent: false,
             skip_taskbar: false,
+            window_level: Default::default(),
             state: None,
             background: Color::WHITE,
             fonts: Vec::default(),
@@ -200,6 +204,12 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
     /// Make the Window skip taskbar or not.
     pub fn with_skip_taskbar(mut self, skip_taskbar: bool) -> Self {
         self.skip_taskbar = skip_taskbar;
+        self
+    }
+
+    /// Sets the window level.
+    pub fn with_window_level(mut self, window_level: WindowLevel) -> Self {
+        self.window_level = window_level;
         self
     }
 
@@ -280,6 +290,7 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
                 decorations: self.decorations,
                 transparent: self.transparent,
                 skip_taskbar: self.skip_taskbar,
+                window_level: self.window_level,
                 state: self.state,
                 background: self.background,
                 icon: self.icon,
