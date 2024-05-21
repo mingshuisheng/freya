@@ -33,6 +33,8 @@ pub struct WindowConfig<T: Clone> {
     pub skip_taskbar: bool,
     /// Sets the window level.
     pub window_level: WindowLevel,
+    /// Make the Window resizable not.
+    pub resizable: bool,
     /// A custom value to consume from your app.
     pub state: Option<T>,
     /// Background color of the Window.
@@ -108,6 +110,7 @@ pub struct LaunchConfigBuilder<'a, T> {
     pub(crate) transparent: bool,
     pub(crate) skip_taskbar: bool,
     pub(crate) window_level: WindowLevel,
+    pub resizable: bool,
     pub(crate) state: Option<T>,
     pub(crate) background: Color,
     pub(crate) fonts: Vec<(&'a str, &'a [u8])>,
@@ -133,6 +136,7 @@ impl<T> Default for LaunchConfigBuilder<'_, T> {
             transparent: false,
             skip_taskbar: false,
             window_level: Default::default(),
+            resizable: true,
             state: None,
             background: Color::WHITE,
             fonts: Vec::default(),
@@ -210,6 +214,12 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
     /// Sets the window level.
     pub fn with_window_level(mut self, window_level: WindowLevel) -> Self {
         self.window_level = window_level;
+        self
+    }
+
+    /// Make the Window resizable not.
+    pub fn with_resizable(mut self, resizable: bool) -> Self {
+        self.resizable = resizable;
         self
     }
 
@@ -291,6 +301,7 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
                 transparent: self.transparent,
                 skip_taskbar: self.skip_taskbar,
                 window_level: self.window_level,
+                resizable: self.resizable,
                 state: self.state,
                 background: self.background,
                 icon: self.icon,
