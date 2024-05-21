@@ -42,6 +42,12 @@ pub enum PlatformEvent {
         cursor: CursorPoint,
         file_path: Option<PathBuf>,
     },
+
+    WindowMoved {
+        name: EventName,
+        x: i32,
+        y: i32,
+    },
 }
 
 impl PlatformEvent {
@@ -52,6 +58,7 @@ impl PlatformEvent {
             Self::Keyboard { name, .. } => *name,
             Self::Touch { name, .. } => *name,
             Self::File { name, .. } => *name,
+            Self::WindowMoved { name, .. } => *name,
         }
     }
 
@@ -62,6 +69,7 @@ impl PlatformEvent {
             Self::Keyboard { name, .. } => *name = new_name,
             Self::Touch { name, .. } => *name = new_name,
             Self::File { name, .. } => *name = new_name,
+            Self::WindowMoved { name, .. } => *name = new_name,
         }
     }
 }

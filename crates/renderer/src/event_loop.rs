@@ -1,12 +1,12 @@
 use accesskit::Action;
 use accesskit_winit::ActionRequestEvent;
-use winit::dpi::LogicalSize;
 use freya_common::EventMessage;
 use freya_core::prelude::*;
 use freya_elements::events::keyboard::{
     map_winit_key, map_winit_modifiers, map_winit_physical_key, Code, Key,
 };
 use torin::geometry::CursorPoint;
+use winit::dpi::LogicalSize;
 use winit::event::{
     ElementState, Event, Ime, KeyEvent, MouseButton, MouseScrollDelta, StartCause, Touch,
     TouchPhase, WindowEvent,
@@ -76,7 +76,10 @@ pub fn run_event_loop<State: Clone>(
                 app.window_env.window.drag_window().ok();
             }
             Event::UserEvent(EventMessage::SetWindowSize(window_size)) => {
-                let _ = app.window_env.window.request_inner_size(LogicalSize::new(window_size.width, window_size.height));
+                let _ = app
+                    .window_env
+                    .window
+                    .request_inner_size(LogicalSize::new(window_size.width, window_size.height));
             }
             Event::UserEvent(ev) => {
                 if let EventMessage::UpdateTemplate(template) = ev {
@@ -243,6 +246,11 @@ pub fn run_event_loop<State: Clone>(
                             cursor: cursor_pos,
                         });
                     }
+                    WindowEvent::Moved(position) => app.send_event(PlatformEvent::WindowMoved {
+                        name: EventName::WindowMoved,
+                        x: position.x,
+                        y: position.y,
+                    }),
                     _ => {}
                 }
             }

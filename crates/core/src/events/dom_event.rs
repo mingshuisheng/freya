@@ -4,6 +4,7 @@ use freya_elements::{
     elements::PlatformEventData,
     events::{
         pointer::PointerType, FileData, KeyboardData, MouseData, PointerData, TouchData, WheelData,
+        WindowMovedData,
     },
 };
 use freya_native_core::NodeId;
@@ -153,6 +154,17 @@ impl DomEvent {
                     layer,
                 }
             }
+            PlatformEvent::WindowMoved { name, x, y } => {
+                let event_data = DomEventData::WindowMoved(WindowMovedData::new(x, y));
+
+                Self {
+                    node_id,
+                    name,
+                    data: event_data,
+                    bubbles,
+                    layer,
+                }
+            }
         }
     }
 }
@@ -166,6 +178,7 @@ pub enum DomEventData {
     Touch(TouchData),
     Pointer(PointerData),
     File(FileData),
+    WindowMoved(WindowMovedData),
 }
 
 impl DomEventData {
@@ -177,6 +190,7 @@ impl DomEventData {
             DomEventData::Touch(t) => Rc::new(PlatformEventData::new(Box::new(t))),
             DomEventData::Pointer(p) => Rc::new(PlatformEventData::new(Box::new(p))),
             DomEventData::File(fd) => Rc::new(PlatformEventData::new(Box::new(fd))),
+            DomEventData::WindowMoved(w) => Rc::new(PlatformEventData::new(Box::new(w))),
         }
     }
 }

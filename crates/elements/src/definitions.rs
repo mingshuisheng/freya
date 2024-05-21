@@ -600,6 +600,13 @@ pub mod events {
     ];
 
     impl_event! [
+        WindowMovedData;
+
+        #[doc = include_str!("_docs/events/windowmoved.md")]
+        onwindowmoved
+    ];
+
+    impl_event! [
         KeyboardData;
 
         #[doc = include_str!("_docs/events/keydown.md")]
