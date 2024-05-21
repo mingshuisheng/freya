@@ -23,6 +23,8 @@ pub struct WindowConfig<T: Clone> {
     pub max_width: Option<f64>,
     /// Maximum height of the window.
     pub max_height: Option<f64>,
+    /// position of the Window.
+    pub position: Option<(i32, i32)>,
     /// Enable Window decorations.
     pub decorations: bool,
     /// Title for the Window.
@@ -105,6 +107,7 @@ pub struct LaunchConfigBuilder<'a, T> {
     pub(crate) min_height: Option<f64>,
     pub(crate) max_width: Option<f64>,
     pub(crate) max_height: Option<f64>,
+    pub(crate) position: Option<(i32, i32)>,
     pub(crate) decorations: bool,
     pub(crate) title: &'static str,
     pub(crate) transparent: bool,
@@ -131,6 +134,7 @@ impl<T> Default for LaunchConfigBuilder<'_, T> {
             min_height: None,
             max_height: None,
             max_width: None,
+            position: None,
             decorations: true,
             title: "Freya app",
             transparent: false,
@@ -184,6 +188,12 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
     /// Specify a maximum Window height.
     pub fn with_max_height(mut self, max_height: f64) -> Self {
         self.max_height = Some(max_height);
+        self
+    }
+
+    /// Specify a position of Window.
+    pub fn with_position(mut self, x: i32, y: i32) -> Self {
+        self.position = Some((x, y));
         self
     }
 
@@ -296,6 +306,7 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
                 min_height: self.min_height,
                 max_width: self.max_width,
                 max_height: self.max_height,
+                position: self.position,
                 title: self.title,
                 decorations: self.decorations,
                 transparent: self.transparent,

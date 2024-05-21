@@ -15,6 +15,7 @@ use glutin_winit::DisplayBuilder;
 use raw_window_handle::HasRawWindowHandle;
 use std::ffi::CString;
 use std::num::NonZeroU32;
+use winit::dpi::PhysicalPosition;
 
 use winit::dpi::{LogicalSize, PhysicalSize};
 use winit::{
@@ -74,6 +75,11 @@ impl<T: Clone> WindowEnv<T> {
 
         if let Some(max_size) = window_config.max_width.zip(window_config.max_height) {
             window_builder = window_builder.with_max_inner_size(LogicalSize::<f64>::from(max_size))
+        }
+
+        if let Some(position) = window_config.position {
+            window_builder =
+                window_builder.with_position(PhysicalPosition::new(position.0, position.1));
         }
 
         if let Some(with_window_builder) = &window_config.window_builder_hook {
