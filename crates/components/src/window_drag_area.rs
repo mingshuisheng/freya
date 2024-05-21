@@ -24,17 +24,23 @@ use freya_hooks::use_platform;
 #[allow(non_snake_case)]
 #[component]
 pub fn WindowDragArea(
-    /// The inner children for the WindowDragArea
-    children: Element,
+  /// enable or not, default is true
+  enable: Option<bool>,
+  /// The inner children for the WindowDragArea
+  children: Element,
 ) -> Element {
-    let platform = use_platform();
+  let platform = use_platform();
 
-    let onmousedown = move |e: MouseEvent| {
-        e.stop_propagation();
-        platform.drag_window();
-    };
+  let enable = enable.unwrap_or(true);
 
-    rsx!(
+  let onmousedown = move |e: MouseEvent| {
+    if enable {
+      e.stop_propagation();
+      platform.drag_window();
+    }
+  };
+
+  rsx!(
         rect {
             onmousedown,
             {children}
