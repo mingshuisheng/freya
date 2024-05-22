@@ -4,8 +4,12 @@ use dioxus_core::prelude::{consume_context, try_consume_context, use_hook};
 use dioxus_signals::{Readable, Signal};
 use freya_common::EventMessage;
 use tokio::sync::{broadcast, mpsc::UnboundedSender};
-use torin::geometry::Size2D;
-use winit::{dpi::PhysicalSize, event_loop::EventLoopProxy, window::CursorIcon};
+use torin::geometry::{Point2D, Size2D};
+use winit::{
+    dpi::{PhysicalPosition, PhysicalSize},
+    event_loop::EventLoopProxy,
+    window::CursorIcon,
+};
 
 #[derive(Clone, Copy, PartialEq)]
 pub struct UsePlatform {
@@ -52,9 +56,22 @@ impl UsePlatform {
     pub fn drag_window(&self) {
         self.send(EventMessage::DragWindow).ok();
     }
-    
+
     pub fn set_window_size(&self, window_size: Size2D) {
         self.send(EventMessage::SetWindowSize(window_size)).ok();
+    }
+
+    pub fn set_window_position(&self, window_position: Point2D) {
+        self.send(EventMessage::SetWindowPosition(window_position))
+            .ok();
+    }
+
+    pub fn set_window_size_and_position(&self, window_size: Size2D, window_position: Point2D) {
+        self.send(EventMessage::SetWindowSizeAndPosition(
+            window_size,
+            window_position,
+        ))
+        .ok();
     }
 
     pub fn request_animation_frame(&self) {
@@ -99,16 +116,32 @@ impl Ticker {
 #[derive(Clone)]
 pub struct PlatformInformation {
     pub window_size: Size2D,
+    pub window_position: Point2D,
 }
 
 impl PlatformInformation {
-    pub fn from_winit(physical_size: PhysicalSize<u32>) -> Self {
+    pub fn from_winit(
+        physical_size: PhysicalSize<u32>,
+        physical_position: PhysicalPosition<i32>,
+    ) -> Self {
         Self {
             window_size: Size2D::new(physical_size.width as f32, physical_size.height as f32),
+            window_position: Point2D::new(physical_position.x as f32, physical_position.y as f32),
         }
     }
 
-    pub fn new(window_size: Size2D) -> Self {
-        Self { window_size }
+    pub fn new(window_size: Size2D, window_position: Point2D) -> Self {
+        Self {
+            window_size,
+            window_position,
+        }
+    }
+
+    pub fn set_window_size(&mut self, physical_size: PhysicalSize<u32>) {
+        self.window_size = Size2D::new(physical_size.width as f32, physical_size.height as f32);
+    }
+
+    pub fn set_window_position(&mut self, physical_position: PhysicalPosition<i32>) {
+        self.window_position = Point2D::new(physical_position.x as f32, physical_position.y as f32);
     }
 }

@@ -17,7 +17,7 @@ use tokio::{
 use torin::geometry::{Area, Size2D};
 use tracing::info;
 use uuid::Uuid;
-use winit::dpi::PhysicalSize;
+use winit::dpi::{PhysicalPosition, PhysicalSize};
 use winit::event_loop::{EventLoop, EventLoopProxy};
 
 use crate::{
@@ -88,6 +88,7 @@ impl<State: 'static + Clone> App<State> {
 
         let platform_information = Arc::new(Mutex::new(PlatformInformation::from_winit(
             window_env.window.inner_size(),
+            window_env.window.outer_position().unwrap(),
         )));
 
         Self {
@@ -274,7 +275,19 @@ impl<State: 'static + Clone> App<State> {
         self.measure_layout_on_next_render = true;
         self.sdom.get().layout().reset();
         self.window_env.resize(size);
-        *self.platform_information.lock().unwrap() = PlatformInformation::from_winit(size);
+
+        self.platform_information
+            .lock()
+            .unwrap()
+            .set_window_size(size);
+    }
+
+    /// window moved
+    pub fn window_moved(&mut self, position: PhysicalPosition<i32>) {
+        self.platform_information
+            .lock()
+            .unwrap()
+            .set_window_position(position);
     }
 
     /// Measure the a text group given it's ID.

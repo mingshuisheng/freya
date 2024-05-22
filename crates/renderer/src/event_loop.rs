@@ -6,7 +6,7 @@ use freya_elements::events::keyboard::{
     map_winit_key, map_winit_modifiers, map_winit_physical_key, Code, Key,
 };
 use torin::geometry::CursorPoint;
-use winit::dpi::LogicalSize;
+use winit::dpi::{PhysicalPosition, PhysicalSize};
 use winit::event::{
     ElementState, Event, Ime, KeyEvent, MouseButton, MouseScrollDelta, StartCause, Touch,
     TouchPhase, WindowEvent,
@@ -79,7 +79,23 @@ pub fn run_event_loop<State: Clone>(
                 let _ = app
                     .window_env
                     .window
-                    .request_inner_size(LogicalSize::new(window_size.width, window_size.height));
+                    .request_inner_size(PhysicalSize::new(window_size.width, window_size.height));
+            }
+            Event::UserEvent(EventMessage::SetWindowPosition(window_position)) => app
+                .window_env
+                .window
+                .set_outer_position(PhysicalPosition::new(window_position.x, window_position.y)),
+            Event::UserEvent(EventMessage::SetWindowSizeAndPosition(
+                window_size,
+                window_position,
+            )) => {
+                let _ = app
+                    .window_env
+                    .window
+                    .request_inner_size(PhysicalSize::new(window_size.width, window_size.height));
+                app.window_env
+                    .window
+                    .set_outer_position(PhysicalPosition::new(window_position.x, window_position.y))
             }
             Event::UserEvent(ev) => {
                 if let EventMessage::UpdateTemplate(template) = ev {
@@ -246,11 +262,14 @@ pub fn run_event_loop<State: Clone>(
                             cursor: cursor_pos,
                         });
                     }
-                    WindowEvent::Moved(position) => app.send_event(PlatformEvent::WindowMoved {
-                        name: EventName::WindowMoved,
-                        x: position.x,
-                        y: position.y,
-                    }),
+                    WindowEvent::Moved(position) => {
+                        app.window_moved(position);
+                        app.send_event(PlatformEvent::WindowMoved {
+                            name: EventName::WindowMoved,
+                            x: position.x,
+                            y: position.y,
+                        })
+                    }
                     _ => {}
                 }
             }

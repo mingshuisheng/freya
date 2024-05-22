@@ -1,3 +1,4 @@
+use dioxus::html::geometry::euclid::Point2D;
 use dioxus_core::fc_to_builder;
 use dioxus_core::Element;
 use dioxus_core::VirtualDom;
@@ -49,7 +50,10 @@ pub fn launch_test_with_config(root: AppComponent, config: TestingConfig) -> Tes
         accessibility_manager: AccessibilityManager::new(ACCESSIBILITY_ROOT_ID).wrap(),
         ticker_sender: broadcast::channel(5).0,
         navigation_state: NavigatorState::new(NavigationMode::NotKeyboard),
-        platform_information: Arc::new(Mutex::new(PlatformInformation::new(config.size))),
+        platform_information: Arc::new(Mutex::new(PlatformInformation::new(
+            config.size,
+            Point2D::default(),
+        ))),
         cursor_icon: CursorIcon::default(),
         focus_sender,
         focus_receiver,

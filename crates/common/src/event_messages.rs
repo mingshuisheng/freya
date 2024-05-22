@@ -1,10 +1,9 @@
 use accesskit::NodeId;
 use accesskit_winit::ActionRequestEvent;
 use dioxus_core::Template;
+use torin::geometry::{Point2D, Size2D};
 use uuid::Uuid;
 use winit::window::CursorIcon;
-use torin::geometry::Size2D;
-
 /// Custom EventLoop messages
 #[derive(Debug)]
 pub enum EventMessage {
@@ -30,6 +29,10 @@ pub enum EventMessage {
     DragWindow,
     /// Set the window size
     SetWindowSize(Size2D),
+    /// Set the window position
+    SetWindowPosition(Point2D),
+    /// Set the window size and postion
+    SetWindowSizeAndPosition(Size2D, Point2D),
     /// Close the whole app
     ExitApp,
 }
