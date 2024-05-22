@@ -8,7 +8,7 @@ use torin::geometry::{Point2D, Size2D};
 use winit::{
     dpi::{PhysicalPosition, PhysicalSize},
     event_loop::EventLoopProxy,
-    window::CursorIcon,
+    window::{CursorIcon, ResizeDirection},
 };
 
 #[derive(Clone, Copy, PartialEq)]
@@ -55,6 +55,11 @@ impl UsePlatform {
 
     pub fn drag_window(&self) {
         self.send(EventMessage::DragWindow).ok();
+    }
+
+    pub fn drag_resize_window(&self, resize_direction: ResizeDirection) {
+        self.send(EventMessage::DragResizeWindow(resize_direction))
+            .ok();
     }
 
     pub fn set_window_size(&self, window_size: Size2D) {

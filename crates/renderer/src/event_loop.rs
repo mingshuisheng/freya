@@ -75,6 +75,12 @@ pub fn run_event_loop<State: Clone>(
             Event::UserEvent(EventMessage::DragWindow) => {
                 app.window_env.window.drag_window().ok();
             }
+            Event::UserEvent(EventMessage::DragResizeWindow(resize_direction)) => {
+                app.window_env
+                    .window
+                    .drag_resize_window(resize_direction)
+                    .ok();
+            }
             Event::UserEvent(EventMessage::SetWindowSize(window_size)) => {
                 let _ = app
                     .window_env

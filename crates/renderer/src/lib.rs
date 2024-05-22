@@ -10,6 +10,7 @@ use winit::event_loop::EventLoopBuilder;
 
 pub use config::WindowConfig;
 pub use window::WindowEnv;
+pub use winit::window::ResizeDirection;
 pub use winit::window::WindowLevel;
 
 mod accessibility;
