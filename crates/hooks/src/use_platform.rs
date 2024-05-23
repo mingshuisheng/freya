@@ -8,7 +8,7 @@ use torin::geometry::{Point2D, Size2D};
 use winit::{
     dpi::{PhysicalPosition, PhysicalSize},
     event_loop::EventLoopProxy,
-    window::{CursorIcon, ResizeDirection},
+    window::{CursorIcon, ResizeDirection, WindowLevel},
 };
 
 #[derive(Clone, Copy, PartialEq)]
@@ -77,6 +77,10 @@ impl UsePlatform {
             window_position,
         ))
         .ok();
+    }
+
+    pub fn set_window_level(&self, window_level: WindowLevel) {
+        self.send(EventMessage::SetWindowLevel(window_level)).ok();
     }
 
     pub fn request_animation_frame(&self) {

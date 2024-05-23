@@ -103,6 +103,9 @@ pub fn run_event_loop<State: Clone>(
                     .window
                     .set_outer_position(PhysicalPosition::new(window_position.x, window_position.y))
             }
+            Event::UserEvent(EventMessage::SetWindowLevel(window_level)) => {
+                app.window_env.window.set_window_level(window_level);
+            }
             Event::UserEvent(ev) => {
                 if let EventMessage::UpdateTemplate(template) = ev {
                     app.vdom_replace_template(template);

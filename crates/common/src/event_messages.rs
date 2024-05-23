@@ -3,7 +3,7 @@ use accesskit_winit::ActionRequestEvent;
 use dioxus_core::Template;
 use torin::geometry::{Point2D, Size2D};
 use uuid::Uuid;
-use winit::window::{CursorIcon, ResizeDirection};
+use winit::window::{CursorIcon, ResizeDirection, WindowLevel};
 /// Custom EventLoop messages
 #[derive(Debug)]
 pub enum EventMessage {
@@ -35,6 +35,8 @@ pub enum EventMessage {
     SetWindowPosition(Point2D),
     /// Set the window size and postion
     SetWindowSizeAndPosition(Size2D, Point2D),
+    /// Set the window level
+    SetWindowLevel(WindowLevel),
     /// Close the whole app
     ExitApp,
 }
