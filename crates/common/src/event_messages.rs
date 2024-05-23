@@ -37,6 +37,8 @@ pub enum EventMessage {
     SetWindowSizeAndPosition(Size2D, Point2D),
     /// Set the window level
     SetWindowLevel(WindowLevel),
+    /// Set the window cursor hittest
+    SetWindowCursorHittest(bool),
     /// Close the whole app
     ExitApp,
 }

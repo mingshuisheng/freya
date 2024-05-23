@@ -83,6 +83,11 @@ impl UsePlatform {
         self.send(EventMessage::SetWindowLevel(window_level)).ok();
     }
 
+    pub fn set_window_cursor_hittest(&self, hittest: bool) {
+        self.send(EventMessage::SetWindowCursorHittest(hittest))
+            .ok();
+    }
+
     pub fn request_animation_frame(&self) {
         self.send(EventMessage::RequestRerender).ok();
     }

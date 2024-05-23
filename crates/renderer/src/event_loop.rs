@@ -106,6 +106,9 @@ pub fn run_event_loop<State: Clone>(
             Event::UserEvent(EventMessage::SetWindowLevel(window_level)) => {
                 app.window_env.window.set_window_level(window_level);
             }
+            Event::UserEvent(EventMessage::SetWindowCursorHittest(hittest)) => {
+                app.window_env.window.set_cursor_hittest(hittest).ok();
+            }
             Event::UserEvent(ev) => {
                 if let EventMessage::UpdateTemplate(template) = ev {
                     app.vdom_replace_template(template);
