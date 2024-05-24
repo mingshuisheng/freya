@@ -216,8 +216,9 @@ impl EventName {
                 | Self::MouseLeave
                 | Self::PointerLeave
                 | Self::MouseEnter
-                | Self::PointerEnter // | Self::MouseOver
-                                     // | Self::PointerOver
+                | Self::PointerEnter
+                | Self::MouseOver
+                | Self::PointerOver
         )
     }
 
