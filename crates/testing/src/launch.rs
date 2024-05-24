@@ -53,6 +53,7 @@ pub fn launch_test_with_config(root: AppComponent, config: TestingConfig) -> Tes
         platform_information: Arc::new(Mutex::new(PlatformInformation::new(
             config.size,
             Point2D::default(),
+            1.0,
         ))),
         cursor_icon: CursorIcon::default(),
         focus_sender,

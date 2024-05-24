@@ -23,6 +23,8 @@ pub struct WindowConfig<T: Clone> {
     pub max_width: Option<f64>,
     /// Maximum height of the window.
     pub max_height: Option<f64>,
+    /// Set physical size of the window.
+    pub physical_size: Option<(f64, f64)>,
     /// position of the Window.
     pub position: Option<(i32, i32)>,
     /// Enable Window decorations.
@@ -107,6 +109,7 @@ pub struct LaunchConfigBuilder<'a, T> {
     pub(crate) min_height: Option<f64>,
     pub(crate) max_width: Option<f64>,
     pub(crate) max_height: Option<f64>,
+    pub(crate) physical_size: Option<(f64, f64)>,
     pub(crate) position: Option<(i32, i32)>,
     pub(crate) decorations: bool,
     pub(crate) title: &'static str,
@@ -134,6 +137,7 @@ impl<T> Default for LaunchConfigBuilder<'_, T> {
             min_height: None,
             max_height: None,
             max_width: None,
+            physical_size: None,
             position: None,
             decorations: true,
             title: "Freya app",
@@ -188,6 +192,12 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
     /// Specify a maximum Window height.
     pub fn with_max_height(mut self, max_height: f64) -> Self {
         self.max_height = Some(max_height);
+        self
+    }
+
+    /// Specify a Window Physical Size.
+    pub fn with_physical_size(mut self, physical_size: (f64, f64)) -> Self {
+        self.physical_size = Some(physical_size);
         self
     }
 
@@ -306,6 +316,7 @@ impl<'a, T: Clone> LaunchConfigBuilder<'a, T> {
                 min_height: self.min_height,
                 max_width: self.max_width,
                 max_height: self.max_height,
+                physical_size: self.physical_size,
                 position: self.position,
                 title: self.title,
                 decorations: self.decorations,

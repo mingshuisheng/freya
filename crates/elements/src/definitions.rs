@@ -607,6 +607,13 @@ pub mod events {
     ];
 
     impl_event! [
+        ScaleFactorData;
+
+        #[doc = include_str!("_docs/events/globalscalefactorchange.md")]
+        onglobalscalefactorchange
+    ];
+
+    impl_event! [
         KeyboardData;
 
         #[doc = include_str!("_docs/events/keydown.md")]

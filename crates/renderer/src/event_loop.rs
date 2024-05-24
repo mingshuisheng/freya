@@ -257,6 +257,13 @@ pub fn run_event_loop<State: Clone>(
                     WindowEvent::Resized(size) => {
                         app.resize(size);
                     }
+                    WindowEvent::ScaleFactorChanged { scale_factor, .. } => {
+                        app.scale_factor_changed(scale_factor as f32);
+                        app.send_event(PlatformEvent::ScaleFactorChange {
+                            name: EventName::GlobalScaleFactorChange,
+                            scale_factor: scale_factor as f32,
+                        });
+                    }
                     WindowEvent::DroppedFile(file_path) => {
                         dropped_file_path = Some(file_path);
                     }

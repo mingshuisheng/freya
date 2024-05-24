@@ -89,6 +89,7 @@ impl<State: 'static + Clone> App<State> {
         let platform_information = Arc::new(Mutex::new(PlatformInformation::from_winit(
             window_env.window.inner_size(),
             window_env.window.outer_position().unwrap(),
+            window_env.window.scale_factor() as f32,
         )));
 
         Self {
@@ -288,6 +289,14 @@ impl<State: 'static + Clone> App<State> {
             .lock()
             .unwrap()
             .set_window_position(position);
+    }
+
+    /// scale factor changed
+    pub fn scale_factor_changed(&mut self, scale_factor: f32) {
+        self.platform_information
+            .lock()
+            .unwrap()
+            .set_window_scale_factor(scale_factor);
     }
 
     /// Measure the a text group given it's ID.

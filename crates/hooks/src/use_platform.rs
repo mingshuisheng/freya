@@ -131,23 +131,27 @@ impl Ticker {
 pub struct PlatformInformation {
     pub window_size: Size2D,
     pub window_position: Point2D,
+    pub window_scale_factor: f32,
 }
 
 impl PlatformInformation {
     pub fn from_winit(
         physical_size: PhysicalSize<u32>,
         physical_position: PhysicalPosition<i32>,
+        scale_factor: f32,
     ) -> Self {
         Self {
             window_size: Size2D::new(physical_size.width as f32, physical_size.height as f32),
             window_position: Point2D::new(physical_position.x as f32, physical_position.y as f32),
+            window_scale_factor: scale_factor,
         }
     }
 
-    pub fn new(window_size: Size2D, window_position: Point2D) -> Self {
+    pub fn new(window_size: Size2D, window_position: Point2D, scale_factor: f32) -> Self {
         Self {
-            window_size,
+            window_size: window_size,
             window_position,
+            window_scale_factor: scale_factor,
         }
     }
 
@@ -157,5 +161,9 @@ impl PlatformInformation {
 
     pub fn set_window_position(&mut self, physical_position: PhysicalPosition<i32>) {
         self.window_position = Point2D::new(physical_position.x as f32, physical_position.y as f32);
+    }
+
+    pub fn set_window_scale_factor(&mut self, scale_factor: f32) {
+        self.window_scale_factor = scale_factor;
     }
 }

@@ -69,6 +69,11 @@ impl<T: Clone> WindowEnv<T> {
         set_resource_cache_total_bytes_limit(1000000); // 1MB
         set_resource_cache_single_allocation_byte_limit(Some(500000)); // 0.5MB
 
+        if let Some(physical_size) = window_config.physical_size {
+            window_builder = window_builder
+                .with_inner_size(PhysicalSize::<f64>::new(physical_size.0, physical_size.1));
+        }
+
         if let Some(min_size) = window_config.min_width.zip(window_config.min_height) {
             window_builder = window_builder.with_min_inner_size(LogicalSize::<f64>::from(min_size))
         }

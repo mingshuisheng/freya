@@ -15,12 +15,12 @@ impl WindowMovedData {
 }
 
 impl WindowMovedData {
-    /// Get the X delta.
+    /// Get the X.
     pub fn get_x(&self) -> i32 {
         self.x
     }
 
-    /// Get the Y delta.
+    /// Get the Y.
     pub fn get_y(&self) -> i32 {
         self.y
     }

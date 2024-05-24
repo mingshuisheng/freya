@@ -39,6 +39,7 @@ pub enum EventName {
     FileDrop,
 
     WindowMoved,
+    GlobalScaleFactorChange,
 }
 
 impl FromStr for EventName {
@@ -73,6 +74,7 @@ impl FromStr for EventName {
             "globalfilehover" => Ok(EventName::GlobalFileHover),
             "globalfilehovercancelled" => Ok(EventName::GlobalFileHoverCancelled),
             "windowmoved" => Ok(EventName::WindowMoved),
+            "globalscalefactorchange" => Ok(EventName::GlobalScaleFactorChange),
             _ => Err(()),
         }
     }
@@ -108,6 +110,7 @@ impl From<EventName> for &str {
             EventName::GlobalFileHover => "globalfilehover",
             EventName::GlobalFileHoverCancelled => "globalfilehovercancelled",
             EventName::WindowMoved => "windowmoved",
+            EventName::GlobalScaleFactorChange => "globalscalefactorchange",
         }
     }
 }
@@ -147,6 +150,7 @@ impl EventName {
             Self::GlobalFileHover => Some(Self::GlobalFileHover),
             Self::GlobalFileHoverCancelled => Some(Self::GlobalFileHoverCancelled),
             Self::WindowMoved => Some(Self::WindowMoved),
+            Self::GlobalScaleFactorChange => Some(Self::GlobalScaleFactorChange),
             _ => None,
         }
     }

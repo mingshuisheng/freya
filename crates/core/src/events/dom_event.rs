@@ -3,8 +3,8 @@ use std::{any::Any, rc::Rc};
 use freya_elements::{
     elements::PlatformEventData,
     events::{
-        pointer::PointerType, FileData, KeyboardData, MouseData, PointerData, TouchData, WheelData,
-        WindowMovedData,
+        pointer::PointerType, FileData, KeyboardData, MouseData, PointerData, ScaleFactorData,
+        TouchData, WheelData, WindowMovedData,
     },
 };
 use freya_native_core::NodeId;
@@ -165,6 +165,18 @@ impl DomEvent {
                     layer,
                 }
             }
+            PlatformEvent::ScaleFactorChange { name, scale_factor } => {
+                let event_data =
+                    DomEventData::GlobalScaleFactorChange(ScaleFactorData::new(scale_factor));
+
+                Self {
+                    node_id,
+                    name,
+                    data: event_data,
+                    bubbles,
+                    layer,
+                }
+            }
         }
     }
 }
@@ -179,6 +191,7 @@ pub enum DomEventData {
     Pointer(PointerData),
     File(FileData),
     WindowMoved(WindowMovedData),
+    GlobalScaleFactorChange(ScaleFactorData),
 }
 
 impl DomEventData {
@@ -191,6 +204,9 @@ impl DomEventData {
             DomEventData::Pointer(p) => Rc::new(PlatformEventData::new(Box::new(p))),
             DomEventData::File(fd) => Rc::new(PlatformEventData::new(Box::new(fd))),
             DomEventData::WindowMoved(w) => Rc::new(PlatformEventData::new(Box::new(w))),
+            DomEventData::GlobalScaleFactorChange(sf) => {
+                Rc::new(PlatformEventData::new(Box::new(sf)))
+            }
         }
     }
 }

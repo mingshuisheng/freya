@@ -48,6 +48,10 @@ pub enum PlatformEvent {
         x: i32,
         y: i32,
     },
+    ScaleFactorChange {
+        name: EventName,
+        scale_factor: f32,
+    },
 }
 
 impl PlatformEvent {
@@ -59,6 +63,7 @@ impl PlatformEvent {
             Self::Touch { name, .. } => *name,
             Self::File { name, .. } => *name,
             Self::WindowMoved { name, .. } => *name,
+            Self::ScaleFactorChange { name, .. } => *name,
         }
     }
 
@@ -70,6 +75,7 @@ impl PlatformEvent {
             Self::Touch { name, .. } => *name = new_name,
             Self::File { name, .. } => *name = new_name,
             Self::WindowMoved { name, .. } => *name = new_name,
+            Self::ScaleFactorChange { name, .. } => *name = new_name,
         }
     }
 }
